@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -9,7 +10,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int points = 100; // Example state variable
+  int points = 100;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 // Pink Background Container (Bottom Layer)
                 Container(
-                  color: const Color(
-                    0xFFFCCBC4,
-                  ).withOpacity(0.8), // Slight opacity
+                  color: const Color(0xFFFCCBC4).withOpacity(0.8),
                   width: double.infinity,
                   height: double.infinity,
                 ),
@@ -44,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       top: 40,
                       left: 20,
                       right: 20,
-                    ), // To avoid the notch area
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -73,9 +72,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             IconButton(
                               icon: const Icon(Icons.logout),
                               onPressed: () {
-                                Navigator.pushReplacementNamed(
+                                Navigator.pushAndRemoveUntil(
                                   context,
-                                  '/login',
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginScreen(),
+                                  ),
+                                  (route) => false,
                                 );
                               },
                             ),
@@ -124,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const Color(0xFFFADDC1),
                   const Color(0xFFFFB771),
                   const Color(0xFFFFD1A4),
-                  const Color(0xFFFF8D1D), // Peach
+                  const Color(0xFFFF8D1D),
                 ),
                 _buildFunctionalityButton(
                   'Practice Speaking',
@@ -132,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const Color(0xFFFAD4C6),
                   const Color(0xFFFFAA8A),
                   const Color(0xFFFBB59B),
-                  const Color(0xFFFF5A1C), // Light Coral
+                  const Color(0xFFFF5A1C),
                 ),
                 _buildFunctionalityButton(
                   'Schedule Calls',
@@ -140,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const Color(0xFFF8EDBD),
                   const Color(0xFFFFE058),
                   const Color(0xFFFFE886),
-                  const Color(0xFFBE9B00), // Light Yellow
+                  const Color(0xFFBE9B00),
                 ),
               ],
             ),
@@ -174,17 +176,16 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
         style: ElevatedButton.styleFrom(
-          elevation: 8, // Shadow effect
+          elevation: 8,
           shadowColor: color2,
-          backgroundColor: color1, // Button color
+          backgroundColor: color1,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20), // Rounded corners
+            borderRadius: BorderRadius.circular(20),
           ),
           padding: const EdgeInsets.all(10),
         ),
         child: Stack(
           children: [
-            // SVG inside a rounded square
             Positioned(
               top: 0,
               left: 0,
@@ -198,18 +199,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: SvgPicture.asset(svgPath, height: 32, width: 32),
               ),
             ),
-            // Button text positioned a little lower
             Align(
               child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 40,
-                ), // Adjusted text position
+                padding: const EdgeInsets.only(top: 40),
                 child: Text(
                   text,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: color4, // Use variable directly without const
+                    color: color4,
                   ),
                 ),
               ),

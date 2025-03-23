@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -52,63 +53,113 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextField(
-              controller: _usernameController,
-              decoration: const InputDecoration(
-                labelText: 'Username',
-                labelStyle: TextStyle(color: Color(0xFFB0B0B0)),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(16.0)),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Top Section with Image and Text
+          Container(
+            height: 250,
+            child: Stack(
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/logobg.svg', // Your SVG file path
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
                 ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            TextField(
-              controller: _passwordController,
-              obscureText: !_isPasswordVisible,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                labelStyle: const TextStyle(color: Color(0xFFB0B0B0)),
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                ),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _isPasswordVisible
-                        ? Icons.visibility
-                        : Icons.visibility_off,
+                Positioned(
+                  left: 32,
+                  bottom: 32,
+                  right: 32,
+                  child: const Text(
+                    'Sign in to your account',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  onPressed: () {
-                    setState(() {
-                      _isPasswordVisible = !_isPasswordVisible;
-                    });
-                  },
                 ),
-              ),
+              ],
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _login,
-              child: const Text('Login'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFF93A6D),
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.0),
+          ),
+
+          // Spacing between the container and login form
+          // Login Form Section
+          Padding(
+            padding: const EdgeInsets.only(
+              bottom: 48,
+              left: 20,
+              right: 20,
+              top: 48,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(
+                  height: 20,
+                ), // Adjusted spacing between the header and login form
+                TextField(
+                  controller: _usernameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Username',
+                    labelStyle: TextStyle(color: Color(0xFFB0B0B0)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                    ),
+                  ),
                 ),
-              ),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: _passwordController,
+                  obscureText: !_isPasswordVisible,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    labelStyle: const TextStyle(color: Color(0xFFB0B0B0)),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _login,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFF93A6D),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                  ),
+                  child: const Text('Login'),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+
+          // Logo at the Bottom
+          Padding(
+            padding: const EdgeInsets.only(top: 160),
+            child: Center(
+              child: SvgPicture.asset('assets/icons/logo.svg', height: 80),
+            ),
+          ),
+        ],
       ),
     );
   }
