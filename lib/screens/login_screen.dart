@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -20,14 +21,23 @@ class _LoginScreenState extends State<LoginScreen> {
     final username = _usernameController.text;
     final password = _passwordController.text;
     final hashedPassword = base64.encode(utf8.encode(password));
+    print(hashedPassword);
 
     try {
       final response = await http.post(
-        Uri.parse('http://10.0.2.2:5000/login'),
+        Uri.parse('https://7153-14-139-185-115.ngrok-free.app/child/login'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({'username': username, 'password': hashedPassword}),
       );
-      if (response.statusCode == 200 && response.body.trim() == 'true') {
+
+      if (response.statusCode == 200) {
+        String? sessionCookie = response.headers['set-cookie'];
+        if (sessionCookie != null) {
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('session_cookie', sessionCookie);
+          print("Session cookie saved: $sessionCookie");
+        }
+
         print('Login successful');
         ScaffoldMessenger.of(
           context,

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,6 +14,38 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int points = 100;
+  Map<String, dynamic>? childDetails;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchChildDetails();
+  }
+
+  Future<void> fetchChildDetails() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? sessionCookie = prefs.getString('session_cookie');
+
+    if (sessionCookie == null) {
+      print("Session cookie not found!");
+      return;
+    }
+    final response = await http.post(
+      Uri.parse('https://7153-14-139-185-115.ngrok-free.app/child/details'),
+      headers: {'Content-Type': 'application/json', 'Cookie': sessionCookie},
+    );
+
+    if (response.statusCode == 200) {
+      setState(() {
+        childDetails = jsonDecode(response.body);
+      });
+      print("Child Details: $childDetails");
+    } else {
+      print(
+        "Failed to load child details. Status Code: ${response.statusCode}",
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,8 +122,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         // Greeting Message
                         Align(
                           alignment: Alignment.centerLeft,
-                          child: const Text(
-                            'Hey Mayank!\nWelcome back!',
+                          child: Text(
+                            'Hey ${childDetails?['name'] ?? "loading..."}!\nWelcome back!',
                             style: TextStyle(
                               fontSize: 36,
                               fontWeight: FontWeight.bold,
