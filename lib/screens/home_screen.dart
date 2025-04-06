@@ -160,6 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const Color(0xFF69C5FF),
                   const Color(0xFF9CD8FD),
                   const Color(0xFF069DFD),
+                  '/',
                 ),
                 _buildFunctionalityButton(
                   'Today’s Schedule',
@@ -168,6 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const Color(0xFFFFB771),
                   const Color(0xFFFFD1A4),
                   const Color(0xFFFF8D1D),
+                  '/task',
                 ),
                 _buildFunctionalityButton(
                   'Practice Speaking',
@@ -176,6 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const Color(0xFFFFAA8A),
                   const Color(0xFFFBB59B),
                   const Color(0xFFFF5A1C),
+                  '/',
                 ),
                 _buildFunctionalityButton(
                   'Schedule Calls',
@@ -184,6 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const Color(0xFFFFE058),
                   const Color(0xFFFFE886),
                   const Color(0xFFBE9B00),
+                  '/',
                 ),
               ],
             ),
@@ -200,21 +204,13 @@ class _HomeScreenState extends State<HomeScreen> {
     Color color2,
     Color color3,
     Color color4,
+    String routeName,
   ) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: ElevatedButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder:
-                  (context) => Scaffold(
-                    appBar: AppBar(title: Text(text)),
-                    body: Center(child: Text('$text Screen')),
-                  ),
-            ),
-          );
+          Navigator.pushNamed(context, routeName); // Navigate using route name
         },
         style: ElevatedButton.styleFrom(
           elevation: 8,

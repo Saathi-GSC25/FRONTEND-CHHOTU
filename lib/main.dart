@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'screens/login_screen.dart'; // Import your login screen
+import 'screens/login_screen.dart';
 import 'screens/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'screens/task_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
           routes: {
             '/login': (context) => const LoginScreen(),
             '/home': (context) => const HomeScreen(),
+            '/task': (context) => const TaskManagerScreen(),
           },
         );
       },
