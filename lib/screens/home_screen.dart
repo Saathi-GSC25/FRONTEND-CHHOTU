@@ -160,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const Color(0xFF69C5FF),
                   const Color(0xFF9CD8FD),
                   const Color(0xFF069DFD),
-                  '/',
+                  '/aasha',
                 ),
                 _buildFunctionalityButton(
                   'Today’s Schedule',

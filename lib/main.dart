@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saathi_chhotu/screens/aasha_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
             '/login': (context) => const LoginScreen(),
             '/home': (context) => const HomeScreen(),
             '/task': (context) => const TaskManagerScreen(),
+            '/aasha': (context) => const AashaScreen()
           },
         );
       },
