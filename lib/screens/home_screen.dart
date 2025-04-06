@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:convert';
 
 class HomeScreen extends StatefulWidget {
@@ -23,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> fetchChildDetails() async {
+    print('here');
     final prefs = await SharedPreferences.getInstance();
     String? sessionCookie = prefs.getString('session_cookie');
 
@@ -31,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
       return;
     }
     final response = await http.post(
-      Uri.parse('https://7153-14-139-185-115.ngrok-free.app/child/details'),
+      Uri.parse('${dotenv.env['BASE_URL']}/common/child_details'),
       headers: {'Content-Type': 'application/json', 'Cookie': sessionCookie},
     );
 
@@ -58,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 // Pink Background Container (Bottom Layer)
                 Container(
-                  color: const Color(0xFFFCCBC4).withOpacity(0.8),
+                  color: const Color(0xFFFCCBC4).withAlpha(204),
                   width: double.infinity,
                   height: double.infinity,
                 ),
@@ -106,11 +108,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             IconButton(
                               icon: const Icon(Icons.logout),
-                              onPressed: () {
+                              onPressed: () async {
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                await prefs.remove('session_cookie');
+
                                 Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => LoginScreen(),
+                                    builder: (context) => const LoginScreen(),
                                   ),
                                   (route) => false,
                                 );

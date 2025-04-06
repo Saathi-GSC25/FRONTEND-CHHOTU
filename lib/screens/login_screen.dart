@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'home_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -25,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       final response = await http.post(
-        Uri.parse('https://7153-14-139-185-115.ngrok-free.app/child/login'),
+        Uri.parse('${dotenv.env['BASE_URL']}/child/login'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({'username': username, 'password': hashedPassword}),
       );
